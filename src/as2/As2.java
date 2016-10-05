@@ -301,7 +301,7 @@ public class As2 {
 						completed++;
 						
 						//Set shortest to anything that hasn't completed (burst != 0)
-						for (int i = 0; i < arriveIndex - 1; i++) {
+						for (int i = 0; i <= arriveIndex ; i++) {
 							if(tempArray[i].getBurst() == 0) {
 								continue;
 							}
