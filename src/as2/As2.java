@@ -8,6 +8,7 @@ import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.util.Scanner;
 
 
@@ -22,6 +23,8 @@ public class As2 {
 		BufferedReader br = new BufferedReader(new InputStreamReader(fstream));
 		
 		Scanner in = new Scanner(br);
+		
+		PrintWriter writer = new PrintWriter("processes.out", "UTF-8");
 		
 		in.next();
 			
@@ -68,9 +71,11 @@ public class As2 {
 		System.out.println();
 			
 
+		writer.println();
 		
-		
-		roundRobin(sArray,runfor,quantum );
+        //firstComeFirstServe(sArray, runfor, writer);
+        shortestJobFirst(sArray, runfor, writer);
+		//roundRobin(sArray,runfor,quantum );
 		
 		
 		
@@ -154,6 +159,192 @@ public class As2 {
 		System.out.println();
 
 	}
+	//first come first serve (array sorted by arrival time in main)
+		public static void firstComeFirstServe(process[] pArray, int runfor, PrintWriter writer) {
+			
+			//confirm fcfs is executing
+			writer.println(pArray.length + " processes");
+			writer.println("Using First Come First Serve");
+			
+			int time = pArray[0].getArrival();
+			int aIndex = 0; //this will stay on what's running
+			int arriveIndex = 0; //this will stay on what's arriving
+			boolean idle = true;
+			process current = null;
+			
+			while(time <= runfor) {
+				
+				if(time == runfor) {
+					break;
+				}
+				
+				//When something arrives, state it has arrived, and if something is running, say that it is still running
+				if(time == pArray[arriveIndex].getArrival()) {
+					writer.println("Time " + time + ": " + pArray[arriveIndex].getName() + " arrived");
+					if(arriveIndex < pArray.length - 1) {
+						arriveIndex++;
+					}
+					if(current != null) {
+						writer.println("Time " + time + ": " + current.getName() + " selected (burst " + current.getBurst() + ")");
+					}
+				}
+				
+				//If nothing has run yet, run the first thing that arrived
+				if(current == null) {
+					current = pArray[aIndex];
+					writer.println("Time " + time + ": " + current.getName() + " selected (burst " + current.getBurst() + ")");
+					idle = false;
+				
+				}
+				
+				//decrement the burst remaining in the process on the one thats running every time cycle
+				if(current.getBurst() > 0 && time != pArray[0].getArrival()) {
+					current.setBurst(current.getBurst() - 1 );
+				
+				}
+				
+				//a process has ended, compute it's wait time, if we're at the end of the queue, set the idle flag
+				if(current.getBurst() == 0) {
+					pArray[aIndex].setWait(time - (pArray[aIndex].getBurst() + pArray[aIndex].getArrival()));
+					writer.println("Time " + time + ": " + current.getName() + " finished");
+					if(aIndex == pArray.length - 1) {
+						idle = true;
+					}
+					else {
+						aIndex++;
+						current = pArray[aIndex];
+						writer.println("Time " + time + ": " + current.getName() + " selected (burst " + current.getBurst() + ")");
+						idle = false;
+					}
+				}
+				
+				//if we're idle and at the end of the ready queue, idle till the end
+				if(aIndex == pArray.length - 1 && idle) {
+					writer.println("Time " + time + ": idle");
+					time = runfor;
+					break;
+				}
+				time++;
+				
+				
+				
+			}
+			writer.println("finished at time " + time);
+			writer.close();
+			
+			
+		}
+		
+		//Shortest job first (array sorted by arrival time in main)
+		public static void shortestJobFirst(process[] pArray, int runfor, PrintWriter writer) {
+			
+			//confirm sjf is executing
+			writer.println(pArray.length + " processes");
+			writer.println("Using Shortest Job First");
+			
+			int time = pArray[0].getArrival();
+			int completed = 0; //tracks what has completed
+			int arriveIndex = 0; //this will stay on what's arriving
+			process[] tempArray = pArray; //array we can decrement burst times on
+			int shortest = 0; //tracks index of the shortest job
+			boolean idle = true;
+			process current = null;
+			
+			while(time <= runfor) {
+				
+				if(time == runfor) {
+					break;
+				}
+				
+				//When something arrives, state it has arrived, and if something is running, compare bursts and re-assign current if necessary
+				if(time == pArray[arriveIndex].getArrival()) {
+					writer.println("Time " + time + ": " + pArray[arriveIndex].getName() + " arrived");
+					if(arriveIndex < pArray.length - 1) {
+						arriveIndex++;
+					}
+					if(current != null) {
+						for (int i = 0; i <= arriveIndex; i++) {
+							if(tempArray[i].getBurst() == 0) {
+								continue;
+							}
+							if(tempArray[shortest].getBurst() > tempArray[i].getBurst()) {
+								shortest = i;
+							}
+						}
+						current = tempArray[shortest];
+						if(current.getBurst() != 0){
+							writer.println("Time " + time + ": " + current.getName() + " selected (burst " + current.getBurst() + ")");
+						}
+					}
+				}
+				
+				//If nothing has run yet, run the first thing that arrived
+				if(current == null) {
+					current = pArray[completed];
+					writer.println("Time " + time + ": " + current.getName() + " selected (burst " + current.getBurst() + ")");
+					idle = false;
+				
+				}
+				
+
+				
+				//a process has ended, compute it's wait time, if we're at the end of the queue, set the idle flag
+				if(current.getBurst() == 0) {
+					pArray[shortest].setWait(time - (pArray[shortest].getBurst() + pArray[shortest].getArrival()));
+					writer.println("Time " + time + ": " + current.getName() + " finished");
+					if(completed == pArray.length - 1) {
+						idle = true;
+					}
+					else {
+						completed++;
+						
+						//Set shortest to anything that hasn't completed (burst != 0)
+						for (int i = 0; i < arriveIndex - 1; i++) {
+							if(tempArray[i].getBurst() == 0) {
+								continue;
+							}
+							shortest = i;
+						}
+						
+						//Go through and assign shortest to the lowest burst remaining (ignore those with burst 0)
+						for (int i = 0; i <= arriveIndex; i++) {
+							if(tempArray[i].getBurst() == 0) {
+								continue;
+							}
+							if(tempArray[shortest].getBurst() > tempArray[i].getBurst()) {
+								shortest = i;
+							}
+						}
+						current = tempArray[shortest];
+						if(current.getBurst() != 0) {
+							writer.println("Time " + time + ": " + current.getName() + " selected (burst " + current.getBurst() + ")");
+						}
+						
+						idle = false;
+					}
+				}
+				
+				//decrement the burst remaining in the process on the one thats running every time cycle
+				if(current.getBurst() > 0) {
+					current.setBurst(current.getBurst() - 1 );
+				
+				}
+				//if we're idle and at the end of the ready queue, idle till the end
+				if(completed == pArray.length - 1 && idle) {
+					writer.println("Time " + time + ": idle");
+					time = runfor;
+					break;
+				}
+				time++;
+				
+				
+				
+			}
+			writer.println("finished at time " + time);
+			writer.close();
+			
+			
+		}
 	
 	public static void removeElement(Object[] a, int del) {
 	    System.arraycopy(a,del+1,a,del,a.length-1-del);
