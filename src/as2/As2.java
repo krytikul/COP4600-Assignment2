@@ -70,7 +70,7 @@ public class As2 {
 			
 		System.out.println();
 			
-
+		//If statement logic for choosing an algorithm
 		writer.println();
 		if(type.equals("fcfs"))
 			firstComeFirstServe(sArray, runfor, writer);
