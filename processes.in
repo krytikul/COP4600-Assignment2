@@ -1,8 +1,10 @@
- processcount 3 # Read 5 processes
- runfor 25     # Run for 15 time units
+ processcount 5 # Read 5 processes
+ runfor 50     # Run for 15 time units
  use sjf         # Can be fcfs, sjf, or rr
  quantum 2      # Time quantum – only if using rr
  process name P1 arrival 3 burst 5
  process name P2 arrival 0 burst 9
  process name P3 arrival 5 burst 7
+ process name P4 arrival 6 burst 1
+ process name P5 arrival 13 burst 27
  end

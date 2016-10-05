@@ -82,9 +82,15 @@ public class As2 {
 		
 		
 		//USE FOR ALL
-		//List wait and turnaround times after completion (using original array for in order listing)
+		//List wait and turnaround times after completion (using original array for in order listing) (testing purposes)
 		for(int p=0;p<processCount;p++){
 			System.out.println(processArray[p].getName()+" wait "+processArray[p].getWait()+" turnaround "+(processArray[p].getbTemp()+processArray[p].getWait()));
+		}
+		
+		//USE FOR ALL
+		//List wait (for the text file) and turnaround times after completion (using original array for in order listing)
+		for(int p=0;p<processCount;p++){
+			writer.println(processArray[p].getName()+" wait "+processArray[p].getWait()+" turnaround "+(processArray[p].getbTemp()+processArray[p].getWait()));
 		}
 
 	}
