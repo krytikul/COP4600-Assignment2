@@ -72,11 +72,11 @@ public class As2 {
 			
 
 		writer.println();
-		if(type=="fcfs")
+		if(type.equals("fcfs"))
 			firstComeFirstServe(sArray, runfor, writer);
-		if(type=="sjf")
+		if(type.equals("sjf"))
 			shortestJobFirst(sArray, runfor, writer);
-		if(type=="rr")
+		if(type.equals("rr"))
 			roundRobin(sArray,runfor,quantum );
 		
 		
