@@ -41,7 +41,9 @@ public class As2 {
 			
 		System.out.println(processCount + " processes");
 		System.out.println("Using "+type);
-		System.out.println("Quantum "+quantum);
+		if(type == "rr"){
+			System.out.println("Quantum "+quantum);
+		}
 			
 		for(int i=0; i<processCount;i++){
 			processArray[i]= new process();
@@ -92,6 +94,9 @@ public class As2 {
 		for(int p=0;p<processCount;p++){
 			writer.println(processArray[p].getName()+" wait "+processArray[p].getWait()+" turnaround "+(processArray[p].getbTemp()+processArray[p].getWait()));
 		}
+		
+		writer.close();
+		in.close();
 
 	}
 	
@@ -173,6 +178,7 @@ public class As2 {
 			//confirm fcfs is executing
 			writer.println(pArray.length + " processes");
 			writer.println("Using First Come First Serve");
+			writer.println();
 			
 			int time = pArray[0].getArrival();
 			int aIndex = 0; //this will stay on what's running
@@ -237,8 +243,8 @@ public class As2 {
 				
 				
 			}
+			writer.println();
 			writer.println("finished at time " + time);
-			writer.close();
 			
 			
 		}
@@ -249,6 +255,7 @@ public class As2 {
 			//confirm sjf is executing
 			writer.println(pArray.length + " processes");
 			writer.println("Using Shortest Job First");
+			writer.println();
 			
 			int time = pArray[0].getArrival();
 			int completed = 0; //tracks what has completed
@@ -348,8 +355,8 @@ public class As2 {
 				
 				
 			}
+			writer.println();
 			writer.println("finished at time " + time);
-			writer.close();
 			
 			
 		}
