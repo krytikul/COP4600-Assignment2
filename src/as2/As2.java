@@ -282,7 +282,7 @@ public class As2 {
 						arriveIndex++;
 					}
 					if(current != null) {
-						for (int i = 0; i < arriveIndex; i++) {
+						for (int i = 0; i <= arriveIndex; i++) {
 							if(tempArray[i].getBurst() == 0) {
 								continue;
 							}
