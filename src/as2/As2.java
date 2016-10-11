@@ -175,11 +175,12 @@ public class As2 {
 					writer.println("Time "+t+": Idle");
 			
 			}else{
-				writer.println("Finsihed at time "+t);
-				break;
+				if(t!=runfor)
+					writer.println("Time "+t+": Idle");
+				
 			}
 		}
-		
+		writer.println("Finished at time " + runfor);
 		System.out.println();
 
 	}
@@ -251,7 +252,7 @@ public class As2 {
 				
 			}
 			writer.println();
-			writer.println("finished at time " + time);
+			writer.println("Finished at time " + time);
 			
 			
 		}
@@ -359,7 +360,7 @@ public class As2 {
 				
 			}
 			writer.println();
-			writer.println("finished at time " + time);
+			writer.println("Finished at time " + time);
 			
 			
 		}
