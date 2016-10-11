@@ -67,9 +67,9 @@ public class As2 {
 				}
 			}
 		}
-		//Test REFRESH	
+		
 		System.out.println();
-		//comment
+
 		//If statement logic for choosing an algorithm
 		writer.println();
 		if(type.equals("fcfs"))
@@ -77,19 +77,19 @@ public class As2 {
 		if(type.equals("sjf"))
 			shortestJobFirst(sArray, runfor, writer);
 		if(type.equals("rr"))
-			roundRobin(sArray,runfor,quantum );
+			roundRobin(sArray,runfor,quantum,writer);
 		
 		
 		
 		//USE FOR ALL
 		//List wait and turnaround times after completion (using original array for in order listing)
 		for(int p=0;p<processCount;p++){
-			System.out.println(processArray[p].getName()+" wait "+processArray[p].getWait()+" turnaround "+(processArray[p].getbTemp()+processArray[p].getWait()));
+			writer.println(processArray[p].getName()+" wait "+processArray[p].getWait()+" turnaround "+(processArray[p].getbTemp()+processArray[p].getWait()));
 		}
 
 	}
 	
-	public static void roundRobin(process sArray[],int runfor, int quantum){
+	public static void roundRobin(process sArray[],int runfor, int quantum,PrintWriter writer){
 		
 		int cProcess =0,aProcess=0,runUntil=0,in=0,done=0; boolean arrived=false,finished = false;
 		for(int t=0;t<runfor+1;t++){
@@ -97,7 +97,7 @@ public class As2 {
 			if(in!=sArray.length){
 				for(int p=0;p<sArray.length;p++){
 					if(sArray[p].getArrival()==t){
-						System.out.println("Time "+t+": "+sArray[p].getName()+" Arrived");
+						writer.println("Time "+t+": "+sArray[p].getName()+" Arrived");
 						arrived=true;
 						aProcess= p;				
 						in++;
@@ -118,8 +118,8 @@ public class As2 {
 			
 				if(sArray[cProcess].getBurst()==0){
 					sArray[cProcess].setWait(t-(sArray[cProcess].getbTemp()+sArray[cProcess].getArrival()));
-					System.out.println("Time "+t+": "+sArray[cProcess].getName()+" Finished");
-					//System.out.println(t);
+					writer.println("Time "+t+": "+sArray[cProcess].getName()+" Finished");
+		
 					done++;
 				
 					removeElement(sArray,cProcess);
@@ -137,7 +137,7 @@ public class As2 {
 				//Process Selection
 				if((runUntil == t)||(finished==true)){
 					if(sArray[cProcess].getBurst()!=0)
-						System.out.println("Time "+t+": "+sArray[cProcess].getName()+" Selected (burst "+sArray[cProcess].getBurst()+")");
+						writer.println("Time "+t+": "+sArray[cProcess].getName()+" Selected (burst "+sArray[cProcess].getBurst()+")");
 					runUntil = runUntil + quantum;
 					//finished =false;
 				}
@@ -150,10 +150,10 @@ public class As2 {
 				}
 
 				if(done==sArray.length)
-					System.out.println("Time "+t+": Idle");
+					writer.println("Time "+t+": Idle");
 			
 			}else{
-				System.out.println("Finsihed at time "+t);
+				writer.println("Finsihed at time "+t);
 				break;
 			}
 		}
