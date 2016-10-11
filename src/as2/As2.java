@@ -188,10 +188,6 @@ public class As2 {
 			
 			while(time <= runfor) {
 				
-				if(time == runfor) {
-					break;
-				}
-				
 				//When something arrives, state it has arrived, and if something is running, say that it is still running
 				if(time == pArray[arriveIndex].getArrival()) {
 					writer.println("Time " + time + ": " + pArray[arriveIndex].getName() + " arrived");
@@ -219,7 +215,7 @@ public class As2 {
 				
 				//a process has ended, compute it's wait time, if we're at the end of the queue, set the idle flag
 				if(current.getBurst() == 0) {
-					pArray[aIndex].setWait(time - (pArray[aIndex].getBurst() + pArray[aIndex].getArrival()));
+					pArray[aIndex].setWait(time - (pArray[aIndex].getbTemp() + pArray[aIndex].getArrival()));
 					writer.println("Time " + time + ": " + current.getName() + " finished");
 					if(aIndex == pArray.length - 1) {
 						idle = true;
@@ -267,10 +263,6 @@ public class As2 {
 			
 			while(time <= runfor) {
 				
-				if(time == runfor) {
-					break;
-				}
-				
 				//When something arrives, state it has arrived, and if something is running, compare bursts and re-assign current if necessary
 				if(time == pArray[arriveIndex].getArrival()) {
 					writer.println("Time " + time + ": " + pArray[arriveIndex].getName() + " arrived");
@@ -278,7 +270,7 @@ public class As2 {
 						arriveIndex++;
 					}
 					if(current != null) {
-						for (int i = 0; i <= arriveIndex; i++) {
+						for (int i = 0; i < arriveIndex; i++) {
 							if(tempArray[i].getBurst() == 0) {
 								continue;
 							}
@@ -305,7 +297,7 @@ public class As2 {
 				
 				//a process has ended, compute it's wait time, if we're at the end of the queue, set the idle flag
 				if(current.getBurst() == 0) {
-					pArray[shortest].setWait(time - (pArray[shortest].getBurst() + pArray[shortest].getArrival()));
+					pArray[shortest].setWait(time - (tempArray[shortest].getbTemp() + tempArray[shortest].getArrival()));
 					writer.println("Time " + time + ": " + current.getName() + " finished");
 					if(completed == pArray.length - 1) {
 						idle = true;
@@ -322,7 +314,7 @@ public class As2 {
 						}
 						
 						//Go through and assign shortest to the lowest burst remaining (ignore those with burst 0)
-						for (int i = 0; i <= arriveIndex; i++) {
+						for (int i = 0; i < arriveIndex; i++) {
 							if(tempArray[i].getBurst() == 0) {
 								continue;
 							}
