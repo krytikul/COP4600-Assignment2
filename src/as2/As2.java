@@ -51,7 +51,7 @@ public class As2 {
         	writer.println("Shortest Job First");
             break;
         case "rr":
-        	writer.println("Round Robin");
+        	writer.println("Round-Robin");
         	writer.println("Quantum "+quantum);
             break;
 
