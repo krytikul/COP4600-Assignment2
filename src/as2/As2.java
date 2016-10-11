@@ -39,9 +39,27 @@ public class As2 {
 			
 		in.nextLine();
 			
-		System.out.println(processCount + " processes");
-		System.out.println("Using "+type);
-		System.out.println("Quantum "+quantum);
+		writer.println(processCount + " processes");
+		writer.print("Using ");
+		
+		
+	    switch (type) {
+        case "fcfs":
+        	writer.println("First Come First Serve");
+            break;
+        case "sjf":
+        	writer.println("Shortest Job First");
+            break;
+        case "rr":
+        	writer.println("Round Robin");
+        	writer.println("Quantum "+quantum);
+            break;
+
+        default:
+        	writer.println("Invalid type selection: IGNORE OUTPUT");
+	    }
+	    
+
 			
 		for(int i=0; i<processCount;i++){
 			processArray[i]= new process();
@@ -68,10 +86,11 @@ public class As2 {
 			}
 		}
 		
-		System.out.println();
+
+		writer.println();
+
 
 		//If statement logic for choosing an algorithm
-		writer.println();
 		if(type.equals("fcfs"))
 			firstComeFirstServe(sArray, runfor, writer);
 		if(type.equals("sjf"))
@@ -80,12 +99,15 @@ public class As2 {
 			roundRobin(sArray,runfor,quantum,writer);
 		
 		
-		
+		writer.println();		
 		//USE FOR ALL
-		//List wait and turnaround times after completion (using original array for in order listing)
+		//List wait (for the text file) and turnaround times after completion (using original array for in order listing)
 		for(int p=0;p<processCount;p++){
 			writer.println(processArray[p].getName()+" wait "+processArray[p].getWait()+" turnaround "+(processArray[p].getbTemp()+processArray[p].getWait()));
 		}
+		
+		writer.close();
+		in.close();
 
 	}
 	
@@ -167,6 +189,7 @@ public class As2 {
 			//confirm fcfs is executing
 			writer.println(pArray.length + " processes");
 			writer.println("Using First Come First Serve");
+			writer.println();
 			
 			int time = pArray[0].getArrival();
 			int aIndex = 0; //this will stay on what's running
@@ -175,10 +198,6 @@ public class As2 {
 			process current = null;
 			
 			while(time <= runfor) {
-				
-				if(time == runfor) {
-					break;
-				}
 				
 				//When something arrives, state it has arrived, and if something is running, say that it is still running
 				if(time == pArray[arriveIndex].getArrival()) {
@@ -207,7 +226,7 @@ public class As2 {
 				
 				//a process has ended, compute it's wait time, if we're at the end of the queue, set the idle flag
 				if(current.getBurst() == 0) {
-					pArray[aIndex].setWait(time - (pArray[aIndex].getBurst() + pArray[aIndex].getArrival()));
+					pArray[aIndex].setWait(time - (pArray[aIndex].getbTemp() + pArray[aIndex].getArrival()));
 					writer.println("Time " + time + ": " + current.getName() + " finished");
 					if(aIndex == pArray.length - 1) {
 						idle = true;
@@ -231,8 +250,8 @@ public class As2 {
 				
 				
 			}
+			writer.println();
 			writer.println("finished at time " + time);
-			writer.close();
 			
 			
 		}
@@ -243,6 +262,7 @@ public class As2 {
 			//confirm sjf is executing
 			writer.println(pArray.length + " processes");
 			writer.println("Using Shortest Job First");
+			writer.println();
 			
 			int time = pArray[0].getArrival();
 			int completed = 0; //tracks what has completed
@@ -254,10 +274,6 @@ public class As2 {
 			
 			while(time <= runfor) {
 				
-				if(time == runfor) {
-					break;
-				}
-				
 				//When something arrives, state it has arrived, and if something is running, compare bursts and re-assign current if necessary
 				if(time == pArray[arriveIndex].getArrival()) {
 					writer.println("Time " + time + ": " + pArray[arriveIndex].getName() + " arrived");
@@ -265,7 +281,7 @@ public class As2 {
 						arriveIndex++;
 					}
 					if(current != null) {
-						for (int i = 0; i <= arriveIndex; i++) {
+						for (int i = 0; i < arriveIndex; i++) {
 							if(tempArray[i].getBurst() == 0) {
 								continue;
 							}
@@ -292,7 +308,7 @@ public class As2 {
 				
 				//a process has ended, compute it's wait time, if we're at the end of the queue, set the idle flag
 				if(current.getBurst() == 0) {
-					pArray[shortest].setWait(time - (pArray[shortest].getBurst() + pArray[shortest].getArrival()));
+					pArray[shortest].setWait(time - (tempArray[shortest].getbTemp() + tempArray[shortest].getArrival()));
 					writer.println("Time " + time + ": " + current.getName() + " finished");
 					if(completed == pArray.length - 1) {
 						idle = true;
@@ -301,7 +317,7 @@ public class As2 {
 						completed++;
 						
 						//Set shortest to anything that hasn't completed (burst != 0)
-						for (int i = 0; i < arriveIndex - 1; i++) {
+						for (int i = 0; i <= arriveIndex ; i++) {
 							if(tempArray[i].getBurst() == 0) {
 								continue;
 							}
@@ -309,7 +325,7 @@ public class As2 {
 						}
 						
 						//Go through and assign shortest to the lowest burst remaining (ignore those with burst 0)
-						for (int i = 0; i <= arriveIndex; i++) {
+						for (int i = 0; i < arriveIndex; i++) {
 							if(tempArray[i].getBurst() == 0) {
 								continue;
 							}
@@ -342,8 +358,8 @@ public class As2 {
 				
 				
 			}
+			writer.println();
 			writer.println("finished at time " + time);
-			writer.close();
 			
 			
 		}
