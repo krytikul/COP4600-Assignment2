@@ -26,17 +26,19 @@ public class As2 {
 		
 		PrintWriter writer = new PrintWriter("processes.out", "UTF-8");
 		
-		in.next();
+		nexti(in);
 			
 		int processCount=in.nextInt();
 		process[] processArray= new process[processCount];
-		in.nextLine(); in.next();
+		in.nextLine(); nexti(in);
 		int runfor = in.nextInt();
-		in.nextLine();in.next();
+		in.nextLine();nexti(in);
 		String type= in.next();
-		in.nextLine();in.next();
+		in.nextLine();nexti(in);
+		
 		int quantum =in.nextInt();	
-			
+		
+		//if quantum
 		in.nextLine();
 			
 		writer.println(processCount + " processes");
@@ -367,6 +369,12 @@ public class As2 {
 	
 	public static void removeElement(Object[] a, int del) {
 	    System.arraycopy(a,del+1,a,del,a.length-1-del);
+	}
+	
+	public static void nexti(Scanner in){
+		while(in.next().equals("#")){
+			in.nextLine();
+		};
 	}
 
 }
