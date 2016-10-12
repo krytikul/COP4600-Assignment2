@@ -190,6 +190,12 @@ public class As2 {
 		public static void firstComeFirstServe(process[] pArray, int runfor, PrintWriter writer) {
 			
 			//confirm fcfs is executing
+<<<<<<< HEAD
+=======
+			/*writer.println(pArray.length + " processes");
+			writer.println("Using First Come First Serve");
+			writer.println();*/
+>>>>>>> origin/master
 			
 			int time = pArray[0].getArrival();
 			int aIndex = 0; //this will stay on what's running
@@ -241,7 +247,9 @@ public class As2 {
 				
 				//if we're idle and at the end of the ready queue, idle till the end
 				if(aIndex == pArray.length - 1 && idle) {
-					writer.println("Time " + time + ": idle");
+					for(int i = 0; i <= runfor - time; i++){
+						writer.println("Time " + (time + i) + ": idle");
+					}
 					time = runfor;
 					break;
 				}
@@ -260,6 +268,12 @@ public class As2 {
 		public static void shortestJobFirst(process[] pArray, int runfor, PrintWriter writer) {
 			
 			//confirm sjf is executing
+<<<<<<< HEAD
+=======
+			//writer.println(pArray.length + " processes");
+			//writer.println("Using Shortest Job First");
+			//writer.println();
+>>>>>>> origin/master
 			
 			int time = pArray[0].getArrival();
 			int completed = 0; //tracks what has completed
@@ -346,7 +360,9 @@ public class As2 {
 				}
 				//if we're idle and at the end of the ready queue, idle till the end
 				if(completed == pArray.length - 1 && idle) {
-					writer.println("Time " + time + ": idle");
+					for(int i = 0; i <= runfor - time; i++){
+						writer.println("Time " + (time + i) + ": idle");
+					}
 					time = runfor;
 					break;
 				}
