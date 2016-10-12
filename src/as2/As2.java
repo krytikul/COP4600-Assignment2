@@ -190,9 +190,6 @@ public class As2 {
 		public static void firstComeFirstServe(process[] pArray, int runfor, PrintWriter writer) {
 			
 			//confirm fcfs is executing
-			writer.println(pArray.length + " processes");
-			writer.println("Using First Come First Serve");
-			writer.println();
 			
 			int time = pArray[0].getArrival();
 			int aIndex = 0; //this will stay on what's running
@@ -263,9 +260,6 @@ public class As2 {
 		public static void shortestJobFirst(process[] pArray, int runfor, PrintWriter writer) {
 			
 			//confirm sjf is executing
-			writer.println(pArray.length + " processes");
-			writer.println("Using Shortest Job First");
-			writer.println();
 			
 			int time = pArray[0].getArrival();
 			int completed = 0; //tracks what has completed
@@ -372,9 +366,12 @@ public class As2 {
 	}
 	
 	public static void nexti(Scanner in){
+			
 		while(in.next().equals("#")){
 			in.nextLine();
 		};
+	
+
 	}
 
 }
