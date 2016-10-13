@@ -34,12 +34,25 @@ public class As2 {
 		int runfor = in.nextInt();
 		in.nextLine();nexti(in);
 		String type= in.next();
-		in.nextLine();nexti(in);
+		in.nextLine();
 		
-		int quantum =in.nextInt();	
+		String inTemp = in.next();
+		int quantum =0;
+		
+		while(inTemp.equals("#")){
+			in.nextLine();
+			inTemp = in.next();
+		};
+		
+		if(inTemp.equals("quantum")){
+			quantum =in.nextInt();	
+			in.nextLine();
+		}
+		
+		
 		
 		//if quantum
-		in.nextLine();
+		
 			
 		writer.println(processCount + " processes");
 		writer.print("Using ");
@@ -65,8 +78,9 @@ public class As2 {
 			
 		for(int i=0; i<processCount;i++){
 			processArray[i]= new process();
-				
-			in.next();in.next();
+			if(i!=0)
+				in.next();
+			in.next();
 			processArray[i].setName(in.next());
 			in.next();
 			processArray[i].setArrival(in.nextInt());
