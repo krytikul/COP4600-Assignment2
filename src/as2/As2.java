@@ -51,6 +51,7 @@ public class As2 {
 		if(inTemp.equals("quantum")){
 			quantum =in.nextInt();	
 			in.nextLine();
+			in.next();
 		}
 		
 		
