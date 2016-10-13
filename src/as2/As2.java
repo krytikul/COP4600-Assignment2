@@ -104,6 +104,7 @@ public class As2 {
 				}
 			}
 		}
+		
 		writer.println();
 
 		//If statement logic for choosing an algorithm
@@ -218,7 +219,7 @@ public class As2 {
 		System.out.println();
 
 	}
-	//first come first serve (array sorted by arrival time in main)
+	//first come first serve (array sorted by arrival time in main) (Michael Colucciello
 		public static void firstComeFirstServe(process[] pArray, int runfor, PrintWriter writer) {
 			
 			
@@ -292,7 +293,7 @@ public class As2 {
 			
 		}
 		
-		//Shortest job first (array sorted by arrival time in main)
+		//Shortest job first (array sorted by arrival time in main) (Michael Colucciello)
 		public static void shortestJobFirst(process[] pArray, int runfor, PrintWriter writer) {
 			
 			int time = pArray[0].getArrival();
@@ -348,7 +349,7 @@ public class As2 {
 						completed++;
 						
 						//Set shortest to anything that hasn't completed (burst != 0)
-						for (int i = 0; i <= arriveIndex ; i++) {
+						for (int i = 0; i < arriveIndex ; i++) {
 							if(tempArray[i].getBurst() == 0) {
 								continue;
 							}
