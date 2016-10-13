@@ -1,3 +1,8 @@
+//Assignment 2 
+//COP 4600
+//Lucas Gillespie & Michael Colluciello
+
+
 package as2;
 
 public class process {
