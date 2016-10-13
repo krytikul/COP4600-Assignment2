@@ -26,6 +26,8 @@ public class As2 {
 		
 		PrintWriter writer = new PrintWriter("processes.out", "UTF-8");
 		
+		
+		//Parse input file
 		nexti(in);
 			
 		int processCount=in.nextInt();
@@ -39,25 +41,24 @@ public class As2 {
 		String inTemp = in.next();
 		int quantum =0;
 		
+		//Special case to skip # when quantum might be next
 		while(inTemp.equals("#")){
 			in.nextLine();
 			inTemp = in.next();
 		};
 		
+		//Handle omission of quantum line
 		if(inTemp.equals("quantum")){
 			quantum =in.nextInt();	
 			in.nextLine();
 		}
 		
 		
-		
-		//if quantum
-		
-			
+		//Print data parsed from file
 		writer.println(processCount + " processes");
 		writer.print("Using ");
 		
-		
+		//Switch for printing type
 	    switch (type) {
         case "fcfs":
         	writer.println("First Come First Serve");
@@ -75,7 +76,7 @@ public class As2 {
 	    }
 	    
 
-			
+		//Read in processes to array of objects	
 		for(int i=0; i<processCount;i++){
 			processArray[i]= new process();
 			if(i!=0)
@@ -91,8 +92,9 @@ public class As2 {
 		
 		//Sorted Array
 		process[] sArray= new process[processCount];
+		
 		int cIndex=0;
-		//Sort
+		//Sort processes in order of arrival time
 		for(int i=0; i<runfor;i++){
 			for(int p =0;p<processCount;p++){
 				if(processArray[p].getArrival()==i){
@@ -102,9 +104,7 @@ public class As2 {
 			}
 		}
 		
-
 		writer.println();
-
 
 		//If statement logic for choosing an algorithm
 		if(type.equals("fcfs"))
@@ -127,6 +127,7 @@ public class As2 {
 
 	}
 	
+	//Round-robin algorithm (Lucas Gillespie)
 	public static void roundRobin(process sArray[],int runfor, int quantum,PrintWriter writer){
 		
 		int cProcess =0,aProcess=0,runUntil=0,in=0,done=0; boolean arrived=false,finished = false;
@@ -142,9 +143,11 @@ public class As2 {
 					}
 				}
 			}
+			//If process arrives after zero set runUntil
 			if(in==1&&arrived==true)
 				runUntil =t;
 			
+			//Run until all processes have finished
 			if((done!=sArray.length)){
 				//Process Switching
 				if((runUntil == t)&&(sArray[cProcess].getBurst()!=0)){
@@ -155,17 +158,22 @@ public class As2 {
 						cProcess=0;
 					}
 				}
-			
+				
+				//Process finish handling
 				if(sArray[cProcess].getBurst()==0){
+					
+					//Set wait using calculation
 					sArray[cProcess].setWait(t-(sArray[cProcess].getbTemp()+sArray[cProcess].getArrival()));
 					writer.println("Time "+t+": "+sArray[cProcess].getName()+" Finished");
-		
+					
+					//increment number of completed processes
 					done++;
-				
+					//Remove completed process from array of objects
 					removeElement(sArray,cProcess);
-				
+					
 					finished =true;
-				
+					
+					//Go to next process
 					if ((cProcess<in-done-1)&&(t!=0)){
 						cProcess++;
 					}else{
@@ -178,9 +186,9 @@ public class As2 {
 				if(((runUntil == t)||(finished==true))&&(in!=0)){
 					if((sArray[cProcess].getBurst()!=0)&&((in!=0)||(arrived==true)))
 						writer.println("Time "+t+": "+sArray[cProcess].getName()+" Selected (burst "+sArray[cProcess].getBurst()+")");
-					runUntil = runUntil + quantum;
-					System.out.println(t + " " + runUntil);
-					arrived=false;
+					runUntil = runUntil + quantum; //Increase runUntil by quantum  for next switch
+					//System.out.println(t + " " + runUntil);
+					arrived=false; 
 					finished =false;
 				}
 			
@@ -190,7 +198,8 @@ public class As2 {
 				if((sArray[cProcess].getBurst()!=0)&&(in!=0)){
 					sArray[cProcess].burst--;
 				}
-
+				
+				//Idle if no processes are here or they are all finsihed
 				if((done==sArray.length)||(in==0))
 					writer.println("Time "+t+": Idle");
 				
@@ -198,6 +207,7 @@ public class As2 {
 				
 			
 			}else{
+				//Idle if processes finished
 				if(t!=runfor)
 					writer.println("Time "+t+": Idle");
 				
@@ -400,6 +410,7 @@ public class As2 {
 	    System.arraycopy(a,del+1,a,del,a.length-1-del);
 	}
 	
+	//Function to check for comments and skip the line
 	public static void nexti(Scanner in){
 			
 		while(in.next().equals("#")){
