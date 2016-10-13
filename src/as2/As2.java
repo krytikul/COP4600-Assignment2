@@ -119,7 +119,8 @@ public class As2 {
 		//USE FOR ALL
 		//List wait (for the text file) and turnaround times after completion (using original array for in order listing)
 		for(int p=0;p<processCount;p++){
-			writer.println(processArray[p].getName()+" wait "+processArray[p].getWait()+" turnaround "+(processArray[p].getbTemp()+processArray[p].getWait()));
+			if(processArray[p].getBurst()==0)
+				writer.println(processArray[p].getName()+" wait "+processArray[p].getWait()+" turnaround "+(processArray[p].getbTemp()+processArray[p].getWait()));
 		}
 		
 		writer.close();
