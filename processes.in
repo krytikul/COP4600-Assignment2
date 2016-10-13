@@ -1,9 +1,8 @@
- processcount 4 # Read 5 processes
- runfor 25  # Run for 15 time units
- use sjf      # Can be fcfs, sjf, or rr
+ processcount 3 # Read 5 processes
+ runfor 10  # Run for 15 time units
+ use fcfs      # Can be fcfs, sjf, or rr
 
- process name P1 arrival 5 burst 9
- process name P2 arrival 13 burst 3
- process name P3 arrival 7 burst 3
- process name P4 arrival 11 burst 4
+ process name P1 arrival 0 burst 9
+ process name P2 arrival 12 burst 2
+ process name P3 arrival 10 burst 3
  end
