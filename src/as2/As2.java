@@ -128,10 +128,12 @@ public class As2 {
 					}
 				}
 			}
+			if(in==1&&arrived==true)
+				runUntil =t;
 			
-			if(done!=sArray.length){
+			if((done!=sArray.length)){
 				//Process Switching
-				if(runUntil == t){
+				if((runUntil == t)&&(sArray[cProcess].getBurst()!=0)){
  
 					if ((cProcess<in-done-1)&&(t!=0)){
 						cProcess++;
@@ -159,22 +161,27 @@ public class As2 {
 			
 			
 				//Process Selection
-				if((runUntil == t)||(finished==true)){
-					if(sArray[cProcess].getBurst()!=0)
+				if(((runUntil == t)||(finished==true))&&(in!=0)){
+					if((sArray[cProcess].getBurst()!=0)&&((in!=0)||(arrived==true)))
 						writer.println("Time "+t+": "+sArray[cProcess].getName()+" Selected (burst "+sArray[cProcess].getBurst()+")");
 					runUntil = runUntil + quantum;
-					//finished =false;
+					System.out.println(t + " " + runUntil);
+					arrived=false;
+					finished =false;
 				}
 			
 			
 			
 				//Burst Decrement & Process Finish
-				if(sArray[cProcess].getBurst()!=0){
+				if((sArray[cProcess].getBurst()!=0)&&(in!=0)){
 					sArray[cProcess].burst--;
 				}
 
-				if(done==sArray.length)
+				if((done==sArray.length)||(in==0))
 					writer.println("Time "+t+": Idle");
+				
+				
+				
 			
 			}else{
 				if(t!=runfor)
